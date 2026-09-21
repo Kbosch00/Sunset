@@ -7,7 +7,7 @@ export type Playlist = {
 export const playlists: Playlist[] = [
   {
     title: "Nuestra playlist",
-    description: "Las canciones que nos representan",
+    description: "Cuando por fin nos veamos",
     spotifyId: "5rpKJArkIK4ri1ZS7oq8km",
   },
   {

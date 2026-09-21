@@ -11,12 +11,9 @@ export default function MusicPage() {
         <h1 className="font-display text-3xl font-medium text-stone-800 sm:text-4xl">
           Nuestras canciones
         </h1>
-        <p className="mx-auto mt-4 max-w-md text-sm text-stone-500 sm:text-base">
-          La banda sonora de lo que somos.
-        </p>
       </header>
 
-      <div className="space-y-10">
+      <div className="space-y-10 grid gap-4">
         {playlists.map((playlist) => (
           <section key={playlist.spotifyId} className="space-y-4">
             <div className="text-center sm:text-left">
@@ -29,7 +26,6 @@ export default function MusicPage() {
                 </p>
               )}
             </div>
-
             <SpotifyEmbed
               spotifyId={playlist.spotifyId}
               title={playlist.title}

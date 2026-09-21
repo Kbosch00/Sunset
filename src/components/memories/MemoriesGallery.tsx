@@ -28,7 +28,7 @@ export function MemoriesGallery({ items }: Props) {
             key={item.src}
             type="button"
             onClick={() => setSelected(item)}
-            className="group relative aspect-[3/4] overflow-hidden rounded-2xl bg-stone-100 shadow-sm transition hover:shadow-md"
+            className="group relative aspect-3/4 overflow-hidden rounded-2xl bg-stone-100 shadow-sm transition hover:shadow-md"
           >
             {item.type === "image" ? (
               <Image

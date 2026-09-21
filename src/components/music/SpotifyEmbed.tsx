@@ -5,7 +5,7 @@ type Props = {
 
 export function SpotifyEmbed({ spotifyId, title }: Props) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white/40 shadow-sm backdrop-blur-sm">
+    <div className="overflow-hidden  rounded-2xl border border-stone-200/80 bg-white/40 shadow-sm backdrop-blur-sm">
       <iframe
         title={title}
         src={`https://open.spotify.com/embed/playlist/${spotifyId}?utm_source=generator&theme=1`}

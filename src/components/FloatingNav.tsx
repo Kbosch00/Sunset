@@ -14,7 +14,7 @@ export function FloatingNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-4 left-0 right-0 z-50 px-3 sm:bottom-6 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:px-2">
+    <nav className="fixed bottom-4 left-0 right-0 z-50 px-3 sm:bottom-6 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:px-2 transition-all duration-300">
       <div
         className="
           mx-auto flex max-w-md items-center justify-between gap-0.5

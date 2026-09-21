@@ -17,7 +17,6 @@ export default function MemoriesPage() {
           Pequeñas capturas de lo que vamos construyendo juntos.
         </p>
       </header>
-
       <MemoriesGallery items={items} />
     </main>
   );

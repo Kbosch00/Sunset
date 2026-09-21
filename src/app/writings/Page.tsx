@@ -1,8 +1,8 @@
-import { getWritings } from "@/src/lib/writings";
+import { getWritings } from "@/src/app/actions/writings";
 import { WritingsList } from "@/src/components/writings/WritingsList";
 
-export default function WritingsPage() {
-  const writings = getWritings();
+export default async function WritingsPage() {
+  const writings = await getWritings();
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-2xl px-4 pb-28 pt-14">

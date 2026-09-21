@@ -18,7 +18,6 @@ export default function LoginPage() {
     const result = await verifyAccessCode(code);
 
     if (result.success) {
-      // El middleware se encargará, pero podemos ir a "/" y dejar que redirija
       router.push("/");
       router.refresh();
     } else {
@@ -28,7 +27,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-stone-50 px-4 flex-1 px-4 pb-28 pt-10">
+    <main className="min-h-screen flex items-center justify-center bg-stone-50 flex-1 px-4 pb-28 pt-10">
       <div className="w-full max-w-sm">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-light tracking-wide text-stone-800">
