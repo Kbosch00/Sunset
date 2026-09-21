@@ -1,9 +1,6 @@
 export type Playlist = {
   title: string;
   description?: string;
-  // ID de la playlist de Spotify (la parte final del link)
-  // Ejemplo: https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M
-  //                                  → 37i9dQZF1DXcBWIGoYBM5M
   spotifyId: string;
 };
 
@@ -11,12 +8,16 @@ export const playlists: Playlist[] = [
   {
     title: "Nuestra playlist",
     description: "Las canciones que nos representan",
-    spotifyId: "5rpKJArkIK4ri1ZS7oq8km", // ← cámbialo
+    spotifyId: "5rpKJArkIK4ri1ZS7oq8km",
   },
-  // Puedes agregar más:
-  // {
-  //   title: "Viajes",
-  //   description: "Para los caminos juntos",
-  //   spotifyId: "OTRO_ID",
-  // },
+  {
+    title: "Cada que te pienso",
+    description: "Las canciones que siempre me recuerdan a tí",
+    spotifyId: "5LTHM1FzkSVVzrde8pYD9g",
+  },
+  {
+    title: "Lo que soy para tí",
+    description: "Las canciones que me has dedicado",
+    spotifyId: "1dVNKKtIHTzymjeDgdGRbR",
+  },
 ];
