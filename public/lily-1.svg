@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 260" fill="none">
+  <defs>
+    <linearGradient id="lilyPetal" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="100%" stop-color="#fda4af" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#fecdd3" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#fff1f2" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="lilyCenter" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="lilyStem" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="100%" stop-color="#86efac" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Tallo -->
+  <path d="M110 130 C112 170, 108 210, 110 250" stroke="url(#lilyStem)" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Pétalos (6 direcciones) -->
+  <path d="M110 130 C110 90, 95 55, 110 35 C125 55, 110 90, 110 130" fill="url(#lilyPetal)"/>
+  <path d="M110 130 C145 115, 175 95, 185 70 C160 85, 130 110, 110 130" fill="url(#lilyPetal)" opacity="0.85"/>
+  <path d="M110 130 C145 150, 170 175, 175 205 C155 180, 130 150, 110 130" fill="url(#lilyPetal)" opacity="0.8"/>
+  <path d="M110 130 C110 165, 125 200, 110 225 C95 200, 110 165, 110 130" fill="url(#lilyPetal)" opacity="0.85"/>
+  <path d="M110 130 C75 150, 45 175, 40 205 C60 180, 90 150, 110 130" fill="url(#lilyPetal)" opacity="0.8"/>
+  <path d="M110 130 C75 115, 45 95, 35 70 C60 85, 90 110, 110 130" fill="url(#lilyPetal)" opacity="0.85"/>
+
+  <!-- Centro -->
+  <circle cx="110" cy="130" r="8" fill="url(#lilyCenter)"/>
+  <circle cx="110" cy="130" r="3.5" fill="#fef3c7" opacity="0.9"/>
+</svg>

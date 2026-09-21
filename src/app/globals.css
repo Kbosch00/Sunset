@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+:root {
+  --background: #fafaf9; /* stone-50 */
+  --foreground: #292524; /* stone-800 */
+  --muted: #78716c; /* stone-500 */
+  --accent: #fb7185; /* rose-400 */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Títulos más elegantes */
+.font-display {
+  font-family: var(--font-playfair), Georgia, serif;
+}

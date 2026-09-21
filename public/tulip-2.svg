@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 180" fill="none">
+  <defs>
+    <linearGradient id="t2Petal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fecdd3" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="t2Stem" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#bbf7d0" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#4ade80" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M60 75 C61 105, 58 140, 60 170" stroke="url(#t2Stem)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M60 100 C45 95, 30 110, 38 125 C48 115, 55 112, 60 115" fill="#bbf7d0" opacity="0.45"/>
+
+  <path d="M60 72 C42 55, 35 28, 50 18 C56 30, 58 48, 60 62" fill="url(#t2Petal)"/>
+  <path d="M60 72 C78 55, 85 28, 70 18 C64 30, 62 48, 60 62" fill="url(#t2Petal)"/>
+  <path d="M60 75 C52 55, 50 30, 60 18 C70 30, 68 55, 60 75" fill="url(#t2Petal)" opacity="0.9"/>
+</svg>
