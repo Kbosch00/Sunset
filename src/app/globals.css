@@ -1,10 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafaf9; /* stone-50 */
-  --foreground: #292524; /* stone-800 */
-  --muted: #78716c; /* stone-500 */
-  --accent: #fb7185; /* rose-400 */
+  --background: #fafaf9;
+  --foreground: #292524;
+  --muted: #78716c;
+  --accent: #fb7185;
+  --shadow-login:
+    0 0 0 1px rgba(0, 0, 0, 0.04),
+    0 12px 40px -12px rgba(120, 80, 80, 0.18);
+}
+
+@theme inline {
+  --shadow-login: var(--shadow-login);
 }
 
 body {
@@ -15,4 +22,72 @@ body {
 
 .font-display {
   font-family: var(--font-playfair), Georgia, serif;
+}
+
+@keyframes loginEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes loginShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+.login-enter {
+  opacity: 0;
+  animation: loginEnter 500ms ease-out forwards;
+}
+
+.login-stagger .login-enter:nth-child(1) {
+  animation-delay: 0ms;
+}
+.login-stagger .login-enter:nth-child(2) {
+  animation-delay: 80ms;
+}
+.login-stagger .login-enter:nth-child(3) {
+  animation-delay: 160ms;
+}
+.login-stagger .login-enter:nth-child(4) {
+  animation-delay: 240ms;
+}
+.login-stagger .login-enter:nth-child(5) {
+  animation-delay: 320ms;
+}
+
+.login-shake {
+  animation: loginShake 420ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-enter {
+    opacity: 1;
+    animation: none;
+  }
+
+  .login-shake {
+    animation: none;
+  }
 }
