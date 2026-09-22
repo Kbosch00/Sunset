@@ -8,6 +8,8 @@ export default function LoginPage() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [shake, setShake] = useState(false);
+  const [showCode, setShowCode] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -22,46 +24,84 @@ export default function LoginPage() {
       router.refresh();
     } else {
       setError(result.error || "Código incorrecto");
+      setShake(true);
+      window.setTimeout(() => setShake(false), 450);
       setLoading(false);
     }
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-stone-50 flex-1 px-4 pb-28 pt-10">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-light tracking-wide text-stone-800">
-            Sunset
-          </h1>
-          <p className="mt-2 text-stone-500 text-sm">
-            Ingresa el código para continuar
-          </p>
+    <main className="relative flex min-h-screen flex-col items-center justify-center px-6 py-16">
+      <div className="login-stagger w-full max-w-md text-center">
+        <p className="login-enter mb-5 text-sm tracking-[0.28em] text-stone-400 uppercase">
+          Un lugar para nosotras
+        </p>
+
+        <h1 className="login-enter font-display text-5xl font-medium tracking-wide text-stone-800 text-balance sm:text-6xl">
+          Sunset
+        </h1>
+
+        <div className="login-enter mx-auto mt-6 mb-8 flex items-center justify-center gap-3">
+          <span className="h-px w-10 bg-rose-200" />
+          <span className="size-1.5 rounded-full bg-rose-300" />
+          <span className="h-px w-10 bg-rose-200" />
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
+        <p className="login-enter text-pretty text-sm leading-relaxed text-stone-500 sm:text-base">
+          Ingresa el código para continuar
+        </p>
+
+        <form
+          onSubmit={handleSubmit}
+          className={`login-enter mt-10 rounded-[2rem] bg-white/60 p-7 shadow-login backdrop-blur-md sm:p-8 ${
+            shake ? "login-shake" : ""
+          }`}
+        >
+          <label
+            htmlFor="access-code"
+            className="mb-3 block text-xs tracking-[0.2em] uppercase text-stone-400"
+          >
+            Código
+          </label>
+
+          <div className="relative">
             <input
-              type="password"
+              id="access-code"
+              type={showCode ? "text" : "password"}
               inputMode="numeric"
+              autoComplete="one-time-code"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-rose-200 focus:border-rose-300 transition"
+              onChange={(e) => {
+                setCode(e.target.value);
+                if (error) setError("");
+              }}
+              placeholder="········"
+              className="w-full rounded-2xl border border-stone-200/80 bg-white/80 py-4 pl-4 pr-16 text-center text-xl tracking-[0.45em] text-stone-800 placeholder:tracking-[0.45em] placeholder:text-stone-300 transition focus:border-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-200/70 disabled:opacity-60"
               autoFocus
               disabled={loading}
             />
+            <button
+              type="button"
+              onClick={() => setShowCode((visible) => !visible)}
+              className="absolute right-2 top-1/2 min-h-11 min-w-11 -translate-y-1/2 rounded-full px-2 text-[11px] tracking-wide text-stone-400 transition hover:text-stone-600"
+              aria-label={showCode ? "Ocultar código" : "Mostrar código"}
+            >
+              {showCode ? "Ocultar" : "Ver"}
+            </button>
           </div>
 
-          {error && (
-            <p className="text-center text-sm text-rose-500">{error}</p>
-          )}
+          {error ? (
+            <p className="mt-4 text-center text-sm text-rose-500" role="alert">
+              {error}
+            </p>
+          ) : null}
 
           <button
             type="submit"
             disabled={loading || code.length === 0}
-            className="w-full py-3 rounded-xl bg-stone-800 text-white font-medium hover:bg-stone-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            className="mt-7 w-full rounded-full bg-rose-500 px-8 py-4 text-base font-medium tracking-wide text-white shadow-lg shadow-rose-200/50 transition-all duration-300 hover:bg-rose-600 hover:shadow-xl hover:shadow-rose-200/60 hover:scale-[1.02] active:scale-[0.96] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
           >
-            {loading ? "Verificando..." : "Entrar"}
+            {loading ? "Verificando…" : "Entrar"}
           </button>
         </form>
       </div>
