@@ -6,6 +6,8 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import type { Album, Memory } from "@/src/lib/memories";
 import { ConfirmDialog } from "../ConfirmDialog";
+import { useToast } from "../Toast";
+import { AlbumSelect } from "./AlbumSelect";
 import { deleteMemory, updateMemoryAlbum } from "@/src/app/actions/memories";
 
 type Props = {
@@ -34,6 +36,7 @@ export function MemoryLightbox({
   albums,
 }: Props) {
   const router = useRouter();
+  const { showToast } = useToast();
   const [deleting, setDeleting] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const item = items[index];
@@ -82,6 +85,13 @@ export function MemoryLightbox({
     else goNext();
   }
 
+  async function handleAlbumChange(newAlbumId: number | null) {
+    await updateMemoryAlbum(item.id, newAlbumId);
+    router.refresh();
+    const albumName = albums.find((a) => a.id === newAlbumId)?.name;
+    showToast(albumName ? `Movido a "${albumName}"` : "Movido a Sin carpeta");
+  }
+
   if (!item || !isClient) return null;
 
   const content = (
@@ -121,6 +131,7 @@ export function MemoryLightbox({
           setConfirmOpen(false);
           onClose();
           router.refresh();
+          showToast("Recuerdo eliminado");
         }}
       />
       {hasPrev && (
@@ -183,24 +194,11 @@ export function MemoryLightbox({
             {index + 1} / {items.length}
           </p>
 
-          <select
-            key={item.id}
-            value={item.albumId ?? "none"}
-            onChange={async (e) => {
-              const value = e.target.value;
-              const newAlbumId = value === "none" ? null : Number(value);
-              await updateMemoryAlbum(item.id, newAlbumId);
-              router.refresh();
-            }}
-            className="w-full max-w-xs rounded-full bg-white/10 px-4 py-2.5 text-center text-sm text-white backdrop-blur-sm"
-          >
-            <option value="none">Sin carpeta</option>
-            {albums.map((album) => (
-              <option key={album.id} value={album.id}>
-                {album.name}
-              </option>
-            ))}
-          </select>
+          <AlbumSelect
+            albums={albums}
+            value={item.albumId}
+            onChange={handleAlbumChange}
+          />
         </div>
       </div>
     </div>

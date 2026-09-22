@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Album } from "@/src/lib/memories";
+import { useToast } from "../Toast";
+
 import {
   createAlbum,
   deleteAlbum,
@@ -17,6 +19,7 @@ type Props = {
 
 export function AlbumTabs({ albums, active, onSelect }: Props) {
   const router = useRouter();
+  const { showToast } = useToast();
   const [creating, setCreating] = useState(false);
   const [name, setName] = useState("");
   const [error, setError] = useState("");
@@ -41,6 +44,7 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
     setName("");
     setCreating(false);
     router.refresh();
+    showToast("Carpeta creada 🌷");
   }
 
   async function handleDelete(album: Album) {
@@ -52,6 +56,7 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
     await deleteAlbum(album.id);
     if (active === album.id) onSelect("all");
     router.refresh();
+    showToast(`Carpeta "${album.name}" eliminada`);
   }
 
   function startEditing(album: Album) {
@@ -71,6 +76,7 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
 
     setEditingId(null);
     router.refresh();
+    showToast("Carpeta renombrada");
   }
 
   const tabClass = (isActive: boolean) =>

@@ -8,6 +8,8 @@ import { WritingCard } from "./WritingCard";
 import { WritingLightbox } from "./WritingLightbox";
 import { WritingForm } from "./WritingForm";
 import { ConfirmDialog } from "../ConfirmDialog";
+import { Pagination } from "../Pagination";
+import { useToast } from "../Toast";
 
 type Props = {
   writings: Writing[];
@@ -15,7 +17,8 @@ type Props = {
 
 export function WritingsList({ writings }: Props) {
   const router = useRouter();
-  const WRITINGS_PER_PAGE = 2;
+  const { showToast } = useToast();
+  const WRITINGS_PER_PAGE = 6;
   const [page, setPage] = useState(1);
   const totalPages = Math.max(
     1,
@@ -56,6 +59,7 @@ export function WritingsList({ writings }: Props) {
     setPendingDelete(null);
     setSelected(null);
     router.refresh();
+    showToast("Escrito eliminado");
   }
 
   return (
@@ -78,8 +82,12 @@ export function WritingsList({ writings }: Props) {
             mode={formMode}
             initialWriting={editingWriting ?? undefined}
             onDone={() => {
+              const wasEditing = formMode === "edit";
               closeForm();
               router.refresh();
+              showToast(
+                wasEditing ? "Escrito actualizado" : "Escrito publicado 🌷",
+              );
             }}
             onCancel={closeForm}
           />
@@ -100,36 +108,11 @@ export function WritingsList({ writings }: Props) {
             ))}
           </div>
         )}
-        {writings.length > WRITINGS_PER_PAGE && (
-          <nav
-            className="flex items-center justify-center gap-4 pt-2"
-            aria-label="Paginación de escritos"
-          >
-            <button
-              type="button"
-              onClick={() => setPage((current) => Math.max(1, current - 1))}
-              disabled={currentPage === 1}
-              className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-200 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Anterior
-            </button>
-
-            <span className="text-sm text-stone-500">
-              Página {currentPage} de {totalPages}
-            </span>
-
-            <button
-              type="button"
-              onClick={() =>
-                setPage((current) => Math.min(totalPages, current + 1))
-              }
-              disabled={currentPage === totalPages}
-              className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-200 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Siguiente
-            </button>
-          </nav>
-        )}
+        <Pagination
+          page={currentPage}
+          totalPages={totalPages}
+          onChange={setPage}
+        />
 
         {selected && (
           <WritingLightbox

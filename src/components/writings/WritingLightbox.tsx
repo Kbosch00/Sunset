@@ -42,7 +42,7 @@ export function WritingLightbox({
       <button
         type="button"
         onClick={onClose}
-        className="absolute right-4 top-4 z-10 rounded-full bg-white/10 px-3 py-1 text-sm text-white hover:bg-white/20"
+        className="absolute right-4 top-3 z-10 rounded-full bg-white/10 px-3 py-1 text-sm text-white hover:bg-white/20"
       >
         Cerrar
       </button>

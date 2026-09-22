@@ -6,6 +6,7 @@ import { FlowerBackground } from "@/src/components/FlowerBackground";
 import { FloatingNav } from "@/src/components/FloatingNav";
 import "./globals.css";
 import { BackgroundMusic } from "../components/BackgroundMusic";
+import { ToastProvider } from "@/src/components/Toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,7 +51,9 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-stone-50 text-stone-800">
         <FlowerBackground />
-        <div className="relative flex flex-1 flex-col">{children}</div>
+        <div className="relative flex flex-1 flex-col">
+          <ToastProvider>{children}</ToastProvider>
+        </div>
         {showNav && <FloatingNav />}
         {showNav && <BackgroundMusic />}
       </body>

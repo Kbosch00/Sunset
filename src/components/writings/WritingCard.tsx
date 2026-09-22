@@ -6,7 +6,8 @@ const AUTHOR_LABEL: Record<Writing["author"], string> = {
   Ana: "Ana",
 };
 
-const PREVIEW_LENGTH_CONTENT = 220;
+// Bajamos el largo del preview para que la tarjeta ocupe menos alto
+const PREVIEW_LENGTH_CONTENT = 130;
 const PREVIEW_LENGTH_TITLE = 35;
 
 type Props = {
@@ -28,11 +29,11 @@ export function WritingCard({ writing, onOpen }: Props) {
     <button
       type="button"
       onClick={onOpen}
-      className="group block w-full cursor-pointer rounded-3xl border border-stone-200/80 bg-white/50 p-6 text-left shadow-sm backdrop-blur-sm transition hover:shadow-md sm:p-8"
+      className="group block w-full cursor-pointer rounded-3xl border border-stone-200/80 bg-white/50 p-4 text-left shadow-sm backdrop-blur-sm transition hover:shadow-md sm:p-5"
     >
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between">
         <span
-          className={`rounded-full px-3 py-1 text-xs font-medium tracking-wide ${
+          className={`rounded-full px-2.5 py-0.5 text-xs font-medium tracking-wide ${
             writing.author === "Kev"
               ? "bg-stone-100/80 text-stone-700"
               : "bg-rose-200/70 text-rose-600"
@@ -45,11 +46,11 @@ export function WritingCard({ writing, onOpen }: Props) {
         </time>
       </div>
 
-      <h2 className="font-display text-xl font-medium wrap-break-word text-stone-800 transition group-hover:text-rose-600 sm:text-2xl">
+      <h2 className="font-display text-lg font-medium wrap-break-word text-stone-800 transition group-hover:text-rose-600 sm:text-xl">
         {previewTitle}
       </h2>
 
-      <p className="mt-4 whitespace-pre-line text-sm wrap-break-word leading-relaxed text-stone-600 sm:text-base">
+      <p className="mt-1.5 line-clamp-2 whitespace-pre-line text-sm wrap-break-word leading-snug text-stone-600">
         {previewContent}
       </p>
     </button>

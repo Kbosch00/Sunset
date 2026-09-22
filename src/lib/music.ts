@@ -20,4 +20,9 @@ export const playlists: Playlist[] = [
     description: "Las canciones que me has dedicado",
     spotifyId: "1dVNKKtIHTzymjeDgdGRbR",
   },
+  {
+    title: "Lo que eres para mí",
+    description: "Las canciones que te he dedicado",
+    spotifyId: "19VGVmkLW2XYClMkMbxbtj",
+  },
 ];

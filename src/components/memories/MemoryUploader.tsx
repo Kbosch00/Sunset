@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUploadThing } from "@/src/lib/uploadthing";
+import { useToast } from "../Toast";
 
 type Props = {
   // A qué carpeta van los archivos que se suban. null = "sin carpeta"
@@ -11,12 +12,19 @@ type Props = {
 
 export function MemoryUploader({ albumId }: Props) {
   const router = useRouter();
+  const { showToast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
 
   const { startUpload, isUploading } = useUploadThing("memoryUploader", {
-    onClientUploadComplete: () => {
+    onClientUploadComplete: (res) => {
       router.refresh();
+      const count = res?.length ?? 1;
+      showToast(
+        count === 1
+          ? "Recuerdo agregado 🌷"
+          : `${count} recuerdos agregados 🌷`,
+      );
     },
     onUploadError: (err) => {
       setError(err.message);

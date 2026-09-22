@@ -6,6 +6,7 @@ import { AlbumTabs } from "./AlbumTabs";
 import { MemoryUploader } from "./MemoryUploader";
 import { MemoriesGallery } from "./MemoriesGallery";
 import { MemoryLightbox } from "./MemoryLightbox";
+import { Pagination } from "../Pagination";
 
 type Props = {
   items: Memory[];
@@ -68,32 +69,11 @@ export function MemoriesView({ items, albums }: Props) {
         onOpen={setOpenIndex}
       />
 
-      {filtered.length > MEMORIES_PER_PAGE && (
-        <nav
-          className="flex items-center justify-center gap-4 pt-2"
-          aria-label="Paginación de recuerdos"
-        >
-          <button
-            type="button"
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-            className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-200 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Anterior
-          </button>
-          <span className="text-sm text-stone-500">
-            Página {currentPage} de {totalPages}
-          </span>
-          <button
-            type="button"
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-            className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-200 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Siguiente
-          </button>
-        </nav>
-      )}
+      <Pagination
+        page={currentPage}
+        totalPages={totalPages}
+        onChange={setPage}
+      />
       {openIndex !== null && (
         <MemoryLightbox
           items={filtered}
