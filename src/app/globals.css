@@ -5,13 +5,12 @@
   --foreground: #292524;
   --muted: #78716c;
   --accent: #fb7185;
+}
+
+@theme {
   --shadow-login:
     0 0 0 1px rgba(0, 0, 0, 0.04),
     0 12px 40px -12px rgba(120, 80, 80, 0.18);
-}
-
-@theme inline {
-  --shadow-login: var(--shadow-login);
 }
 
 body {
