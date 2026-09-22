@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Writing } from "@/src/lib/writings";
 import { deleteWriting } from "@/src/app/actions/writings";
@@ -14,14 +14,20 @@ type Props = {
 
 export function WritingsList({ writings }: Props) {
   const router = useRouter();
-
-  // Cuál escrito está abierto en el lightbox (o null si ninguno)
+  const WRITINGS_PER_PAGE = 2;
+  const [page, setPage] = useState(1);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(writings.length / WRITINGS_PER_PAGE),
+  );
+  const currentPage = Math.min(page, totalPages);
+  const paginatedWritings = useMemo(() => {
+    const start = (currentPage - 1) * WRITINGS_PER_PAGE;
+    return writings.slice(start, start + WRITINGS_PER_PAGE);
+  }, [currentPage, writings]);
   const [selected, setSelected] = useState<Writing | null>(null);
-
-  // Qué formulario mostrar arriba de la lista: nada, "crear" o "editar"
   const [formMode, setFormMode] = useState<"none" | "create" | "edit">("none");
   const [editingWriting, setEditingWriting] = useState<Writing | null>(null);
-
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   function openCreateForm() {
@@ -51,7 +57,7 @@ export function WritingsList({ writings }: Props) {
     await deleteWriting(writing.id);
     setDeletingId(null);
     setSelected(null);
-    router.refresh(); // vuelve a pedir la lista al servidor, ya sin ese escrito
+    router.refresh();
   }
 
   return (
@@ -86,7 +92,7 @@ export function WritingsList({ writings }: Props) {
         </p>
       ) : (
         <div className="space-y-6">
-          {writings.map((writing) => (
+          {paginatedWritings.map((writing) => (
             <WritingCard
               key={writing.id}
               writing={writing}
@@ -94,6 +100,36 @@ export function WritingsList({ writings }: Props) {
             />
           ))}
         </div>
+      )}
+      {writings.length > WRITINGS_PER_PAGE && (
+        <nav
+          className="flex items-center justify-center gap-4 pt-2"
+          aria-label="Paginación de escritos"
+        >
+          <button
+            type="button"
+            onClick={() => setPage((current) => Math.max(1, current - 1))}
+            disabled={currentPage === 1}
+            className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-200 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Anterior
+          </button>
+
+          <span className="text-sm text-stone-500">
+            Página {currentPage} de {totalPages}
+          </span>
+
+          <button
+            type="button"
+            onClick={() =>
+              setPage((current) => Math.min(totalPages, current + 1))
+            }
+            disabled={currentPage === totalPages}
+            className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-200 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Siguiente
+          </button>
+        </nav>
       )}
 
       {selected && (

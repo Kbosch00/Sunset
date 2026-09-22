@@ -66,11 +66,11 @@ export function WritingLightbox({
           </time>
         </div>
 
-        <h2 className="font-display text-2xl font-medium text-stone-800 sm:text-3xl">
+        <h2 className="font-display text-2xl font-medium wrap-break-word text-stone-800 sm:text-3xl">
           {writing.title}
         </h2>
 
-        <p className="mt-6 whitespace-pre-line text-base leading-relaxed text-stone-600">
+        <p className="mt-6 whitespace-pre-line text-base wrap-break-word leading-relaxed text-stone-600">
           {writing.content}
         </p>
 

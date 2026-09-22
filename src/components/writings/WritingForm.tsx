@@ -43,24 +43,26 @@ export function WritingForm({ mode, initialWriting, onDone, onCancel }: Props) {
       onSubmit={handleSubmit}
       className="space-y-4 rounded-3xl border border-stone-200/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm sm:p-8"
     >
-      <span className="text-stone-500">¿Quien escribe?</span>
       {mode === "create" && (
-        <div className="flex gap-2">
-          {(["Kev", "Ana"] as const).map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => setAuthor(option)}
-              className={`cursor-pointer rounded-full px-4 py-1.5 text-sm transition ${
-                author === option
-                  ? "bg-rose-500 text-white"
-                  : "bg-stone-100 text-stone-600 hover:bg-stone-200"
-              }`}
-            >
-              {option === "Kev" ? "Kev" : "Ana"}
-            </button>
-          ))}
-        </div>
+        <>
+          <span className="text-stone-500">¿Quien escribe?</span>
+          <div className="flex gap-2">
+            {(["Kev", "Ana"] as const).map((option) => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => setAuthor(option)}
+                className={`cursor-pointer rounded-full px-4 py-1.5 text-sm transition ${
+                  author === option
+                    ? "bg-rose-500 text-white"
+                    : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+                }`}
+              >
+                {option === "Kev" ? "Kev" : "Ana"}
+              </button>
+            ))}
+          </div>
+        </>
       )}
 
       <input

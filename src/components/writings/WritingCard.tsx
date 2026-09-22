@@ -6,7 +6,8 @@ const AUTHOR_LABEL: Record<Writing["author"], string> = {
   Ana: "Ella",
 };
 
-const PREVIEW_LENGTH = 220;
+const PREVIEW_LENGTH_CONTENT = 220;
+const PREVIEW_LENGTH_TITLE = 35;
 
 type Props = {
   writing: Writing;
@@ -14,10 +15,14 @@ type Props = {
 };
 
 export function WritingCard({ writing, onOpen }: Props) {
-  const isLong = writing.content.length > PREVIEW_LENGTH;
-  const preview = isLong
-    ? writing.content.slice(0, PREVIEW_LENGTH).trimEnd() + "…"
+  const isLongContent = writing.content.length > PREVIEW_LENGTH_CONTENT;
+  const isLongTitle = writing.content.length > PREVIEW_LENGTH_TITLE;
+  const previewContent = isLongContent
+    ? writing.content.slice(0, PREVIEW_LENGTH_CONTENT).trimEnd() + "…"
     : writing.content;
+  const previewTitle = isLongTitle
+    ? writing.title.slice(0, PREVIEW_LENGTH_TITLE).trimEnd() + "…"
+    : writing.title;
 
   return (
     <button
@@ -25,7 +30,7 @@ export function WritingCard({ writing, onOpen }: Props) {
       onClick={onOpen}
       className="group block w-full cursor-pointer rounded-3xl border border-stone-200/80 bg-white/50 p-6 text-left shadow-sm backdrop-blur-sm transition hover:shadow-md sm:p-8"
     >
-      <div className="mb-3 flex items-center justify-between ">
+      <div className="mb-3 flex items-center justify-between">
         <span
           className={`rounded-full px-3 py-1 text-xs font-medium tracking-wide ${
             writing.author === "Kev"
@@ -40,12 +45,12 @@ export function WritingCard({ writing, onOpen }: Props) {
         </time>
       </div>
 
-      <h2 className="font-display text-xl font-medium text-stone-800 transition group-hover:text-rose-600 sm:text-2xl">
-        {writing.title}
+      <h2 className="font-display text-xl font-medium wrap-break-word text-stone-800 transition group-hover:text-rose-600 sm:text-2xl">
+        {previewTitle}
       </h2>
 
-      <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-stone-600 sm:text-base">
-        {preview}
+      <p className="mt-4 whitespace-pre-line text-sm wrap-break-word leading-relaxed text-stone-600 sm:text-base">
+        {previewContent}
       </p>
     </button>
   );

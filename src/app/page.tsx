@@ -9,7 +9,7 @@ function getDaysTogether(since: Date) {
 }
 
 export default function HomePage() {
-  const sinceDate = new Date("2026-10-01"); // ← AJUSTA ESTA FECHA
+  const sinceDate = new Date("2026-10-01");
   const days = getDaysTogether(sinceDate);
 
   return (
