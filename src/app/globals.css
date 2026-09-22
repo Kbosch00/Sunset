@@ -9,8 +9,7 @@
 
 @theme {
   --shadow-login:
-    0 0 0 1px rgba(0, 0, 0, 0.04),
-    0 12px 40px -12px rgba(120, 80, 80, 0.18);
+    0 0 0 1px rgba(0, 0, 0, 0.04), 0 12px 40px -12px rgba(120, 80, 80, 0.18);
 }
 
 body {
@@ -21,19 +20,6 @@ body {
 
 .font-display {
   font-family: var(--font-playfair), Georgia, serif;
-}
-
-@keyframes loginEnter {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-    filter: blur(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
 }
 
 @keyframes loginShake {
@@ -54,39 +40,56 @@ body {
     transform: translateX(4px);
   }
 }
-
-.login-enter {
-  opacity: 0;
-  animation: loginEnter 500ms ease-out forwards;
-}
-
-.login-stagger .login-enter:nth-child(1) {
-  animation-delay: 0ms;
-}
-.login-stagger .login-enter:nth-child(2) {
-  animation-delay: 80ms;
-}
-.login-stagger .login-enter:nth-child(3) {
-  animation-delay: 160ms;
-}
-.login-stagger .login-enter:nth-child(4) {
-  animation-delay: 240ms;
-}
-.login-stagger .login-enter:nth-child(5) {
-  animation-delay: 320ms;
-}
-
 .login-shake {
   animation: loginShake 420ms ease-out;
 }
 
+@keyframes fadeEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.fade-enter {
+  opacity: 0;
+  animation: fadeEnter 300ms ease-out forwards;
+}
+.fade-stagger > .fade-enter:nth-child(1) {
+  animation-delay: 0ms;
+}
+.fade-stagger > .fade-enter:nth-child(2) {
+  animation-delay: 80ms;
+}
+.fade-stagger > .fade-enter:nth-child(3) {
+  animation-delay: 160ms;
+}
+.fade-stagger > .fade-enter:nth-child(4) {
+  animation-delay: 240ms;
+}
+.fade-stagger > .fade-enter:nth-child(5) {
+  animation-delay: 320ms;
+}
+.fade-stagger > .fade-enter:nth-child(6) {
+  animation-delay: 400ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .login-enter {
+  .fade-enter {
     opacity: 1;
     animation: none;
   }
-
   .login-shake {
+    animation: none;
+  }
+  .login-enter {
+    opacity: 1;
     animation: none;
   }
 }

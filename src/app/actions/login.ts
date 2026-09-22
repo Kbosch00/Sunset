@@ -10,7 +10,7 @@ export async function verifyAccessCode(code: string) {
   }
 
   if (code.trim() !== correctCode) {
-    return { success: false, error: "Código incorrecto" };
+    return { success: false, error: "Contraseña incorrecta c:" };
   }
 
   const cookieStore = await cookies();

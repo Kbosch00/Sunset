@@ -13,30 +13,30 @@ export default function HomePage() {
   const days = getDaysTogether(sinceDate);
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center px-6 pb-28 pt-16">
-      <div className="w-full max-w-lg text-center">
-        <p className="mb-6 text-sm tracking-[0.2em] text-stone-400 uppercase">
+    <main className="fade-stagger relative flex min-h-screen flex-col items-center justify-center px-6 pb-28 pt-16">
+      <div className="fade-enter w-full max-w-lg text-center">
+        <p className="fade-enter mb-6 text-sm tracking-[0.2em] text-stone-400 uppercase">
           Sunset
         </p>
 
-        <h1 className="font-display text-4xl font-medium leading-tight text-stone-800 sm:text-5xl">
+        <h1 className="fade-enter font-display text-4xl font-medium leading-tight text-stone-800 sm:text-5xl">
           Hola,
           <br />
           <span className="text-rose-500">mi cielo</span>
         </h1>
 
-        <div className="mx-auto mt-12 max-w-xs rounded-3xl border border-stone-200/80 bg-white/50 px-8 py-8 shadow-sm backdrop-blur-sm">
+        <div className="fade-enter mx-auto mt-12 max-w-xs rounded-3xl border border-stone-200/80 bg-white/50 px-8 py-8 shadow-sm backdrop-blur-sm">
           <p className="text-sm tracking-wide text-stone-400">
             Llevamos juntos
           </p>
-          <p className="mt-3 font-display text-5xl font-medium text-stone-800 tabular-nums">
+          <p className="fade-enter mt-3 font-display text-5xl font-medium text-stone-800 tabular-nums">
             {days}
           </p>
-          <p className="mt-2 text-sm text-stone-500">
+          <p className="fade-enter mt-2 text-sm text-stone-500">
             {days === 1 ? "día" : "días"}
           </p>
         </div>
-        <p className="mx-auto mt-10 max-w-md text-base leading-relaxed text-stone-500 sm:text-lg">
+        <p className="fade-enter mx-auto mt-10 max-w-md text-base leading-relaxed text-stone-500 sm:text-lg">
           Este pequeño rincón es solo nuestro.
         </p>
       </div>

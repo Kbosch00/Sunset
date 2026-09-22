@@ -46,7 +46,9 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-stone-50 text-stone-800">
         <FlowerBackground />
-        <div className="relative flex flex-1 flex-col">{children}</div>
+        <div className="relative flex flex-1 flex-col fade-enter">
+          {children}
+        </div>
         {showNav && <FloatingNav />}
       </body>
     </html>
