@@ -5,7 +5,8 @@ export default function AskPage() {
     <main className="relative flex min-h-screen flex-col items-center justify-center px-6 py-16">
       <div className="fade-stagger w-full max-w-lg text-center">
         <p className="fade-enter mb-5 text-sm tracking-[0.28em] text-stone-400 uppercase">
-          Para Ana, mi pedacito de cielo
+          Para Ana, <br />
+          mi pedacito de cielo
         </p>
         <h1 className="fade-enter font-display text-4xl font-medium leading-tight text-stone-800 text-balance sm:text-5xl">
           ¿Quieres ser

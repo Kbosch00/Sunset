@@ -45,7 +45,7 @@ export default function LoginPage() {
           <span className="h-px w-10 bg-rose-200" />
         </div>
         <p className="fade-enter text-pretty text-sm leading-relaxed text-stone-500 sm:text-base">
-          Ingresa el nuestra fecha para continuar dd/mm/aaaa
+          Ingresa nuestra fecha para continuar dd/mm/aaaa
         </p>
         <form
           onSubmit={handleSubmit}
