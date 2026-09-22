@@ -5,8 +5,8 @@ import type { Writing } from "@/src/lib/writings";
 import { formatWritingDate } from "@/src/lib/writings";
 
 const AUTHOR_LABEL: Record<Writing["author"], string> = {
-  Kev: "Él",
-  Ana: "Ella",
+  Kev: "Kev",
+  Ana: "Ana",
 };
 
 type Props = {
@@ -55,8 +55,8 @@ export function WritingLightbox({
           <span
             className={`rounded-full px-3 py-1 text-xs font-medium tracking-wide ${
               writing.author === "Kev"
-                ? "bg-rose-100/80 text-rose-700"
-                : "bg-stone-200/70 text-stone-600"
+                ? "bg-stone-100/80 text-stone-700"
+                : "bg-rose-200/70 text-rose-600"
             }`}
           >
             {AUTHOR_LABEL[writing.author]}

@@ -14,7 +14,7 @@ export default async function MemoriesPage() {
           Momentos nuestros
         </h1>
         <p className="fade-enter mx-auto mt-4 max-w-md text-sm text-stone-500 sm:text-base">
-          Pequeñas capturas de lo que vamos construyendo juntos.
+          Lo que vamos creando juntos.
         </p>
       </header>
 

@@ -38,8 +38,6 @@ export function MemoriesView({ items, albums }: Props) {
     return filtered.slice(start, start + MEMORIES_PER_PAGE);
   }, [filtered, currentPage]);
 
-  // Si estás viendo "Todos" o "Sin carpeta", lo que subas queda sin carpeta.
-  // Si estás dentro de una carpeta específica, se suma a esa.
   const uploadAlbumId = typeof active === "number" ? active : null;
 
   return (

@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { FlowerBackground } from "@/src/components/FlowerBackground";
 import { FloatingNav } from "@/src/components/FloatingNav";
 import "./globals.css";
+import { BackgroundMusic } from "../components/BackgroundMusic";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,8 +36,6 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const saidYes = cookieStore.get("sunset_said_yes")?.value === "1";
   const hasAccess = cookieStore.get("sunset_access")?.value === "1";
-
-  // Mostrar nav solo si ya pasó el login de esta sesión y ya dijo Sí
   const showNav = hasAccess && saidYes;
 
   return (
@@ -46,10 +45,9 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-stone-50 text-stone-800">
         <FlowerBackground />
-        <div className="relative flex flex-1 flex-col fade-enter">
-          {children}
-        </div>
+        <div className="relative flex flex-1 flex-col">{children}</div>
         {showNav && <FloatingNav />}
+        {showNav && <BackgroundMusic />}
       </body>
     </html>
   );

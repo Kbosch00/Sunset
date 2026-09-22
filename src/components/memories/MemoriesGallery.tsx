@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function MemoriesGallery({ items }: Props) {
-  const [selected, setSelected] = useState<Memory | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   if (items.length === 0) {
     return (
@@ -23,11 +23,11 @@ export function MemoriesGallery({ items }: Props) {
   return (
     <>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <button
             key={item.id}
             type="button"
-            onClick={() => setSelected(item)}
+            onClick={() => setSelectedIndex(index)}
             className="group relative aspect-3/4 overflow-hidden rounded-2xl bg-stone-100 shadow-sm transition hover:shadow-md"
           >
             {item.type === "image" ? (
@@ -64,8 +64,13 @@ export function MemoriesGallery({ items }: Props) {
         ))}
       </div>
 
-      {selected && (
-        <MemoryLightbox item={selected} onClose={() => setSelected(null)} />
+      {selectedIndex !== null && (
+        <MemoryLightbox
+          items={items}
+          index={selectedIndex}
+          onIndexChange={setSelectedIndex}
+          onClose={() => setSelectedIndex(null)}
+        />
       )}
     </>
   );

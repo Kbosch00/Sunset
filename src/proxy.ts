@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hasAccess = request.cookies.get("sunset_access")?.value === "1";
   const saidYes = request.cookies.get("sunset_said_yes")?.value === "1";

@@ -11,6 +11,9 @@ export default function MusicPage() {
         <h1 className="fade-enter font-display text-3xl font-medium text-stone-800 sm:text-4xl">
           Nuestras canciones
         </h1>
+        <p className="fade-enter mx-auto mt-4 max-w-md text-sm text-stone-500 sm:text-base">
+          Cuando las palabras no bastan para expresar lo que sentimos.
+        </p>
       </header>
 
       <MusicView playlists={playlists} />

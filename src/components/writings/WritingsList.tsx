@@ -7,6 +7,7 @@ import { deleteWriting } from "@/src/app/actions/writings";
 import { WritingCard } from "./WritingCard";
 import { WritingLightbox } from "./WritingLightbox";
 import { WritingForm } from "./WritingForm";
+import { ConfirmDialog } from "../ConfirmDialog";
 
 type Props = {
   writings: Writing[];
@@ -29,6 +30,7 @@ export function WritingsList({ writings }: Props) {
   const [formMode, setFormMode] = useState<"none" | "create" | "edit">("none");
   const [editingWriting, setEditingWriting] = useState<Writing | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<Writing | null>(null);
 
   function openCreateForm() {
     setSelected(null);
@@ -46,101 +48,107 @@ export function WritingsList({ writings }: Props) {
     setFormMode("none");
     setEditingWriting(null);
   }
-
-  async function handleDelete(writing: Writing) {
-    const confirmed = window.confirm(
-      `¿Borrar "${writing.title}"? No se puede deshacer.`,
-    );
-    if (!confirmed) return;
-
-    setDeletingId(writing.id);
-    await deleteWriting(writing.id);
+  async function confirmDelete() {
+    if (!pendingDelete) return;
+    setDeletingId(pendingDelete.id);
+    await deleteWriting(pendingDelete.id);
     setDeletingId(null);
+    setPendingDelete(null);
     setSelected(null);
     router.refresh();
   }
 
   return (
-    <div className="space-y-6">
-      {formMode === "none" && (
-        <div className="flex justify-center">
-          <button
-            type="button"
-            onClick={openCreateForm}
-            className="cursor-pointer rounded-full bg-rose-500 px-6 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-300 hover:bg-rose-600"
+    <>
+      <div className="space-y-6">
+        {formMode === "none" && (
+          <div className="flex justify-center">
+            <button
+              type="button"
+              onClick={openCreateForm}
+              className="cursor-pointer rounded-full bg-rose-500 px-6 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-300 hover:bg-rose-600"
+            >
+              + Nuevo escrito
+            </button>
+          </div>
+        )}
+
+        {formMode !== "none" && (
+          <WritingForm
+            mode={formMode}
+            initialWriting={editingWriting ?? undefined}
+            onDone={() => {
+              closeForm();
+              router.refresh();
+            }}
+            onCancel={closeForm}
+          />
+        )}
+
+        {writings.length === 0 ? (
+          <p className="text-center text-stone-400">
+            Aún no hay escritos por aquí.
+          </p>
+        ) : (
+          <div className="space-y-6">
+            {paginatedWritings.map((writing) => (
+              <WritingCard
+                key={writing.id}
+                writing={writing}
+                onOpen={() => setSelected(writing)}
+              />
+            ))}
+          </div>
+        )}
+        {writings.length > WRITINGS_PER_PAGE && (
+          <nav
+            className="flex items-center justify-center gap-4 pt-2"
+            aria-label="Paginación de escritos"
           >
-            + Nuevo escrito
-          </button>
-        </div>
-      )}
+            <button
+              type="button"
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+              disabled={currentPage === 1}
+              className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-200 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Anterior
+            </button>
 
-      {formMode !== "none" && (
-        <WritingForm
-          mode={formMode}
-          initialWriting={editingWriting ?? undefined}
-          onDone={() => {
-            closeForm();
-            router.refresh();
-          }}
-          onCancel={closeForm}
-        />
-      )}
+            <span className="text-sm text-stone-500">
+              Página {currentPage} de {totalPages}
+            </span>
 
-      {writings.length === 0 ? (
-        <p className="text-center text-stone-400">
-          Aún no hay escritos por aquí.
-        </p>
-      ) : (
-        <div className="space-y-6">
-          {paginatedWritings.map((writing) => (
-            <WritingCard
-              key={writing.id}
-              writing={writing}
-              onOpen={() => setSelected(writing)}
-            />
-          ))}
-        </div>
-      )}
-      {writings.length > WRITINGS_PER_PAGE && (
-        <nav
-          className="flex items-center justify-center gap-4 pt-2"
-          aria-label="Paginación de escritos"
-        >
-          <button
-            type="button"
-            onClick={() => setPage((current) => Math.max(1, current - 1))}
-            disabled={currentPage === 1}
-            className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-200 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Anterior
-          </button>
+            <button
+              type="button"
+              onClick={() =>
+                setPage((current) => Math.min(totalPages, current + 1))
+              }
+              disabled={currentPage === totalPages}
+              className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-200 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Siguiente
+            </button>
+          </nav>
+        )}
 
-          <span className="text-sm text-stone-500">
-            Página {currentPage} de {totalPages}
-          </span>
-
-          <button
-            type="button"
-            onClick={() =>
-              setPage((current) => Math.min(totalPages, current + 1))
-            }
-            disabled={currentPage === totalPages}
-            className="rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600 transition hover:bg-stone-200 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Siguiente
-          </button>
-        </nav>
-      )}
-
-      {selected && (
-        <WritingLightbox
-          writing={selected}
-          onClose={() => setSelected(null)}
-          onEdit={() => openEditForm(selected)}
-          onDelete={() => handleDelete(selected)}
-          deleting={deletingId === selected.id}
-        />
-      )}
-    </div>
+        {selected && (
+          <WritingLightbox
+            writing={selected}
+            onClose={() => setSelected(null)}
+            onEdit={() => openEditForm(selected)}
+            onDelete={() => setPendingDelete(selected)}
+            deleting={deletingId === selected.id}
+          />
+        )}
+      </div>
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        title={pendingDelete ? `¿Borrar "${pendingDelete.title}"?` : ""}
+        description="No se puede deshacer."
+        loading={deletingId !== null}
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={confirmDelete}
+      />
+    </>
   );
 }
