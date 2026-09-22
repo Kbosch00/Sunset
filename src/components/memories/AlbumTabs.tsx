@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Album } from "@/src/lib/memories";
-import { createAlbum, deleteAlbum } from "@/src/app/actions/memories";
+import {
+  createAlbum,
+  deleteAlbum,
+  updateAlbumName,
+} from "@/src/app/actions/memories";
 
 type Props = {
   albums: Album[];
@@ -16,6 +20,13 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
   const [creating, setCreating] = useState(false);
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+
+  // Modo "gestionar": cada carpeta se ve como una fila con botones
+  // grandes y siempre visibles (no dependen de pasar el mouse encima,
+  // así funciona igual en celular que en computador)
+  const [managing, setManaging] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingName, setEditingName] = useState("");
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
@@ -43,6 +54,25 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
     router.refresh();
   }
 
+  function startEditing(album: Album) {
+    setEditingId(album.id);
+    setEditingName(album.name);
+  }
+
+  async function handleRename(e: React.FormEvent) {
+    e.preventDefault();
+    if (editingId === null) return;
+
+    const result = await updateAlbumName(editingId, editingName);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+
+    setEditingId(null);
+    router.refresh();
+  }
+
   const tabClass = (isActive: boolean) =>
     `cursor-pointer rounded-full px-4 py-1.5 text-sm transition ${
       isActive
@@ -50,6 +80,92 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
         : "bg-stone-100 text-stone-600 hover:bg-stone-200"
     }`;
 
+  // --- Modo "gestionar carpetas" ---
+  if (managing) {
+    return (
+      <div className="mx-auto max-w-sm space-y-3 rounded-3xl border border-stone-200/80 bg-white/60 p-4 shadow-sm backdrop-blur-sm">
+        <p className="text-center text-sm font-medium text-stone-600">
+          Gestionar carpetas
+        </p>
+
+        {albums.length === 0 && (
+          <p className="text-center text-sm text-stone-400">
+            Aún no has creado ninguna carpeta.
+          </p>
+        )}
+
+        <div className="space-y-2">
+          {albums.map((album) =>
+            editingId === album.id ? (
+              <form
+                key={album.id}
+                onSubmit={handleRename}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="text"
+                  value={editingName}
+                  onChange={(e) => setEditingName(e.target.value)}
+                  autoFocus
+                  className="flex-1 w-6 rounded-full border border-rose-200 bg-white px-3 py-2 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-rose-200"
+                />
+                <button
+                  type="submit"
+                  className="cursor-pointer rounded-full bg-rose-500 px-3 py-2 text-sm text-white hover:bg-rose-600"
+                >
+                  Guardar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditingId(null)}
+                  className="cursor-pointer rounded-full bg-stone-100 px-3 py-2 text-sm text-stone-500 hover:bg-stone-200"
+                >
+                  Cancelar
+                </button>
+              </form>
+            ) : (
+              <div
+                key={album.id}
+                className="flex items-center justify-between gap-2 rounded-full bg-stone-50 px-4 py-2"
+              >
+                <span className="truncate text-sm text-stone-700">
+                  {album.name}
+                </span>
+                <div className="flex shrink-0 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => startEditing(album)}
+                    className="cursor-pointer rounded-full bg-stone-200 px-3 py-1.5 text-xs text-stone-600 hover:bg-stone-300"
+                  >
+                    Renombrar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(album)}
+                    className="cursor-pointer rounded-full bg-rose-50 px-3 py-1.5 text-xs text-rose-600 hover:bg-rose-100"
+                  >
+                    Borrar
+                  </button>
+                </div>
+              </div>
+            ),
+          )}
+        </div>
+
+        {error && <p className="text-center text-sm text-rose-500">{error}</p>}
+
+        <button
+          type="button"
+          onClick={() => setManaging(false)}
+          className="w-full cursor-pointer rounded-full bg-rose-500 px-4 py-1.5 text-sm text-white hover:bg-rose-600"
+        >
+          Listo
+        </button>
+      </div>
+    );
+  }
+
+  // --- Modo normal: pestañas para navegar entre carpetas ---
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-center gap-2">
@@ -69,24 +185,14 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
         </button>
 
         {albums.map((album) => (
-          <div key={album.id} className="group relative">
-            <button
-              type="button"
-              onClick={() => onSelect(album.id)}
-              className={tabClass(active === album.id)}
-            >
-              {album.name}
-            </button>
-            {/* Botoncito para borrar, solo aparece al pasar el mouse */}
-            <button
-              type="button"
-              onClick={() => handleDelete(album)}
-              className="absolute -right-1 -top-1 hidden h-4 w-4 items-center justify-center rounded-full bg-stone-400 text-[10px] text-white group-hover:flex"
-              aria-label={`Borrar carpeta ${album.name}`}
-            >
-              ×
-            </button>
-          </div>
+          <button
+            key={album.id}
+            type="button"
+            onClick={() => onSelect(album.id)}
+            className={tabClass(active === album.id)}
+          >
+            {album.name}
+          </button>
         ))}
 
         <button
@@ -96,6 +202,16 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
         >
           + Nueva carpeta
         </button>
+
+        {albums.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setManaging(true)}
+            className="cursor-pointer rounded-full border border-dashed border-stone-300 px-4 py-1.5 text-sm text-stone-500 transition hover:bg-stone-100"
+          >
+            Editar carpetas
+          </button>
+        )}
       </div>
 
       {creating && (

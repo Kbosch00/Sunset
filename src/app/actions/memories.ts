@@ -37,12 +37,29 @@ export async function createAlbum(name: string) {
 }
 
 export async function deleteAlbum(id: number) {
-  // Las fotos de esta carpeta NO se borran, solo quedan "sin carpeta"
   await db.orm.public.Memory.where({ albumId: id }).updateAll({
     albumId: null,
   });
   await db.orm.public.Album.where({ id }).delete();
 
+  revalidatePath("/memories");
+  return { ok: true as const };
+}
+
+export async function updateMemoryAlbum(id: number, albumId: number | null) {
+  await db.orm.public.Memory.where({ id }).update({ albumId });
+  revalidatePath("/memories");
+  return { ok: true as const };
+}
+
+export async function updateAlbumName(id: number, name: string) {
+  const trimmed = name.trim();
+
+  if (!trimmed) {
+    return { ok: false as const, error: "Ponle un nombre a la carpeta" };
+  }
+
+  await db.orm.public.Album.where({ id }).update({ name: trimmed });
   revalidatePath("/memories");
   return { ok: true as const };
 }

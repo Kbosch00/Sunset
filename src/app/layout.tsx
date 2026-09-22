@@ -24,8 +24,13 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000",
+  ),
   title: "Sunset",
-  description: "Para ti",
+  description: "Un pequeño rincón solo para nosotros 🌷",
 };
 
 export default async function RootLayout({

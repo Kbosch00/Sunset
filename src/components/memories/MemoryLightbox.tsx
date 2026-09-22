@@ -4,15 +4,16 @@ import Image from "next/image";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
-import type { Memory } from "@/src/lib/memories";
-import { deleteMemory } from "@/src/app/actions/memories";
+import type { Album, Memory } from "@/src/lib/memories";
 import { ConfirmDialog } from "../ConfirmDialog";
+import { deleteMemory, updateMemoryAlbum } from "@/src/app/actions/memories";
 
 type Props = {
   items: Memory[];
   index: number;
   onIndexChange: (index: number) => void;
   onClose: () => void;
+  albums: Album[];
 };
 
 const emptySubscribe = () => () => {};
@@ -30,6 +31,7 @@ export function MemoryLightbox({
   index,
   onIndexChange,
   onClose,
+  albums,
 }: Props) {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
@@ -105,6 +107,7 @@ export function MemoryLightbox({
       >
         {deleting ? "Borrando..." : "Eliminar"}
       </button>
+
       <ConfirmDialog
         open={confirmOpen}
         title="¿Borrar este recuerdo?"
@@ -175,9 +178,30 @@ export function MemoryLightbox({
           />
         )}
 
-        <p className="mt-3 text-center text-xs text-white/60">
-          {index + 1} / {items.length}
-        </p>
+        <div className="mt-3 flex flex-col items-center gap-3">
+          <p className="text-center text-xs text-white/60">
+            {index + 1} / {items.length}
+          </p>
+
+          <select
+            key={item.id}
+            value={item.albumId ?? "none"}
+            onChange={async (e) => {
+              const value = e.target.value;
+              const newAlbumId = value === "none" ? null : Number(value);
+              await updateMemoryAlbum(item.id, newAlbumId);
+              router.refresh();
+            }}
+            className="w-full max-w-xs rounded-full bg-white/10 px-4 py-2.5 text-center text-sm text-white backdrop-blur-sm"
+          >
+            <option value="none">Sin carpeta</option>
+            {albums.map((album) => (
+              <option key={album.id} value={album.id}>
+                {album.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import type { Album, Memory } from "@/src/lib/memories";
 import { AlbumTabs } from "./AlbumTabs";
 import { MemoryUploader } from "./MemoryUploader";
 import { MemoriesGallery } from "./MemoriesGallery";
+import { MemoryLightbox } from "./MemoryLightbox";
 
 type Props = {
   items: Memory[];
@@ -16,10 +17,14 @@ const MEMORIES_PER_PAGE = 9;
 export function MemoriesView({ items, albums }: Props) {
   const [active, setActive] = useState<"all" | "none" | number>("all");
   const [page, setPage] = useState(1);
+  // Índice absoluto (dentro de "filtered") del recuerdo abierto en el
+  // lightbox. null = está cerrado.
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   function handleSelect(value: "all" | "none" | number) {
     setActive(value);
-    setPage(1); // al cambiar de carpeta, volvemos a la página 1
+    setPage(1);
+    setOpenIndex(null);
   }
 
   const filtered = useMemo(() => {
@@ -33,12 +38,21 @@ export function MemoriesView({ items, albums }: Props) {
     Math.ceil(filtered.length / MEMORIES_PER_PAGE),
   );
   const currentPage = Math.min(page, totalPages);
-  const paginated = useMemo(() => {
-    const start = (currentPage - 1) * MEMORIES_PER_PAGE;
-    return filtered.slice(start, start + MEMORIES_PER_PAGE);
-  }, [filtered, currentPage]);
+  const startIndex = (currentPage - 1) * MEMORIES_PER_PAGE;
+  const paginated = useMemo(
+    () => filtered.slice(startIndex, startIndex + MEMORIES_PER_PAGE),
+    [filtered, startIndex],
+  );
 
   const uploadAlbumId = typeof active === "number" ? active : null;
+
+  // Cuando el lightbox avanza a una foto que vive en otra página,
+  // movemos también la página, para que al cerrarlo la cuadrícula
+  // ya esté mostrando esa página.
+  function handleIndexChange(newIndex: number) {
+    setOpenIndex(newIndex);
+    setPage(Math.floor(newIndex / MEMORIES_PER_PAGE) + 1);
+  }
 
   return (
     <div className="space-y-6">
@@ -48,7 +62,11 @@ export function MemoriesView({ items, albums }: Props) {
         <MemoryUploader albumId={uploadAlbumId} />
       </div>
 
-      <MemoriesGallery items={paginated} />
+      <MemoriesGallery
+        items={paginated}
+        startIndex={startIndex}
+        onOpen={setOpenIndex}
+      />
 
       {filtered.length > MEMORIES_PER_PAGE && (
         <nav
@@ -75,6 +93,15 @@ export function MemoriesView({ items, albums }: Props) {
             Siguiente
           </button>
         </nav>
+      )}
+      {openIndex !== null && (
+        <MemoryLightbox
+          items={filtered}
+          index={openIndex}
+          onIndexChange={handleIndexChange}
+          onClose={() => setOpenIndex(null)}
+          albums={albums}
+        />
       )}
     </div>
   );
