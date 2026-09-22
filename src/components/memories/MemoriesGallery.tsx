@@ -2,15 +2,15 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import type { MemoryItem } from "@/src/lib/memories";
+import type { Memory } from "@/src/lib/memories";
 import { MemoryLightbox } from "./MemoryLightbox";
 
 type Props = {
-  items: MemoryItem[];
+  items: Memory[];
 };
 
 export function MemoriesGallery({ items }: Props) {
-  const [selected, setSelected] = useState<MemoryItem | null>(null);
+  const [selected, setSelected] = useState<Memory | null>(null);
 
   if (items.length === 0) {
     return (
@@ -25,14 +25,14 @@ export function MemoriesGallery({ items }: Props) {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
         {items.map((item) => (
           <button
-            key={item.src}
+            key={item.id}
             type="button"
             onClick={() => setSelected(item)}
             className="group relative aspect-3/4 overflow-hidden rounded-2xl bg-stone-100 shadow-sm transition hover:shadow-md"
           >
             {item.type === "image" ? (
               <Image
-                src={item.src}
+                src={item.url}
                 alt="Recuerdo"
                 fill
                 sizes="(max-width: 640px) 50vw, 33vw"
@@ -41,13 +41,12 @@ export function MemoriesGallery({ items }: Props) {
             ) : (
               <>
                 <video
-                  src={item.src}
+                  src={item.url}
                   muted
                   playsInline
                   preload="metadata"
                   className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
-                {/* Icono de play */}
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm">
                     <svg

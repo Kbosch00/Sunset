@@ -1,8 +1,8 @@
-import { MemoriesGallery } from "@/src/components/memories/MemoriesGallery";
-import { getMemoryItems } from "@/src/lib/memories";
+import { getMemories, getAlbums } from "@/src/app/actions/memories";
+import { MemoriesView } from "@/src/components/memories/MemoriesView";
 
-export default function MemoriesPage() {
-  const items = getMemoryItems();
+export default async function MemoriesPage() {
+  const [items, albums] = await Promise.all([getMemories(), getAlbums()]);
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-4xl px-4 pb-28 pt-14">
@@ -17,7 +17,8 @@ export default function MemoriesPage() {
           Pequeñas capturas de lo que vamos construyendo juntos.
         </p>
       </header>
-      <MemoriesGallery items={items} />
+
+      <MemoriesView items={items} albums={albums} />
     </main>
   );
 }

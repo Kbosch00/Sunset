@@ -8,3 +8,19 @@ model Writing {
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
+
+model Album {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt TimestamptzString @default(now())
+  memories  Memory[]
+}
+
+model Memory {
+  id        Int      @id @default(autoincrement())
+  url       String
+  type      String
+  albumId   Int?
+  album     Album?   @relation(fields: [albumId], references: [id])
+  createdAt TimestamptzString @default(now())
+}
