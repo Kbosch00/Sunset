@@ -10,11 +10,8 @@ export const ourFileRouter = {
     image: { maxFileSize: "8MB", maxFileCount: 30 },
     video: { maxFileSize: "64MB", maxFileCount: 10 },
   })
-    // El navegador manda esto junto con los archivos: a qué carpeta van.
-    // z.number().nullable() significa "un número, o null si no hay carpeta"
     .input(z.object({ albumId: z.number().nullable() }))
     .middleware(async ({ input }) => {
-      // Lo único que devolvemos aquí es lo que va a llegar a onUploadComplete
       return { albumId: input.albumId };
     })
     .onUploadComplete(async ({ file, metadata }) => {
@@ -25,9 +22,7 @@ export const ourFileRouter = {
         type,
         albumId: metadata.albumId,
       });
-
       revalidatePath("/memories");
-
       return { url: file.ufsUrl, type };
     }),
 } satisfies FileRouter;

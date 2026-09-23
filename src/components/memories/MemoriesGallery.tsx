@@ -20,12 +20,6 @@ function MemoryThumbnail({
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Si el navegador ya tenía este archivo en caché (por ejemplo al
-  // recargar la página con F5), puede terminar de cargar tan rápido
-  // que el evento "onLoad" se dispara antes de que React lo esté
-  // escuchando. Por eso, apenas se monta el componente, revisamos
-  // "a mano" si ya estaba listo desde el principio.
   useEffect(() => {
     if (imgRef.current?.complete) {
       setLoaded(true);

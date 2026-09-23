@@ -23,10 +23,6 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
   const [creating, setCreating] = useState(false);
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-
-  // Modo "gestionar": cada carpeta se ve como una fila con botones
-  // grandes y siempre visibles (no dependen de pasar el mouse encima,
-  // así funciona igual en celular que en computador)
   const [managing, setManaging] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingName, setEditingName] = useState("");
@@ -86,7 +82,6 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
         : "bg-stone-100 text-stone-600 hover:bg-stone-200"
     }`;
 
-  // --- Modo "gestionar carpetas" ---
   if (managing) {
     return (
       <div className="mx-auto max-w-sm space-y-3 rounded-3xl border border-stone-200/80 bg-white/60 p-4 shadow-sm backdrop-blur-sm">
@@ -171,7 +166,6 @@ export function AlbumTabs({ albums, active, onSelect }: Props) {
     );
   }
 
-  // --- Modo normal: pestañas para navegar entre carpetas ---
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-center gap-2">

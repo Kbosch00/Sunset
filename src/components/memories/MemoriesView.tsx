@@ -18,8 +18,6 @@ const MEMORIES_PER_PAGE = 9;
 export function MemoriesView({ items, albums }: Props) {
   const [active, setActive] = useState<"all" | "none" | number>("all");
   const [page, setPage] = useState(1);
-  // Índice absoluto (dentro de "filtered") del recuerdo abierto en el
-  // lightbox. null = está cerrado.
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   function handleSelect(value: "all" | "none" | number) {
@@ -47,9 +45,6 @@ export function MemoriesView({ items, albums }: Props) {
 
   const uploadAlbumId = typeof active === "number" ? active : null;
 
-  // Cuando el lightbox avanza a una foto que vive en otra página,
-  // movemos también la página, para que al cerrarlo la cuadrícula
-  // ya esté mostrando esa página.
   function handleIndexChange(newIndex: number) {
     setOpenIndex(newIndex);
     setPage(Math.floor(newIndex / MEMORIES_PER_PAGE) + 1);

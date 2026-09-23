@@ -6,7 +6,6 @@ import { useUploadThing } from "@/src/lib/uploadthing";
 import { useToast } from "../Toast";
 
 type Props = {
-  // A qué carpeta van los archivos que se suban. null = "sin carpeta"
   albumId: number | null;
 };
 
@@ -36,7 +35,6 @@ export function MemoryUploader({ albumId }: Props) {
     if (files.length === 0) return;
 
     setError("");
-    // El segundo argumento es el "input" que definimos con zod en core.ts
     startUpload(files, { albumId });
     e.target.value = "";
   }

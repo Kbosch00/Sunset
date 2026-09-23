@@ -25,8 +25,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     (message: string, type: ToastType = "success") => {
       const id = nextId++;
       setToasts((current) => [...current, { id, message, type }]);
-
-      // Cada toast se quita solo después de un rato
       setTimeout(() => {
         setToasts((current) => current.filter((t) => t.id !== id));
       }, 3000);
@@ -37,8 +35,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-
-      {/* La pila de toasts, siempre pegada abajo al centro de la pantalla */}
       <div className="pointer-events-none fixed inset-x-0 top-6 z-200 flex flex-col items-center gap-2 px-4">
         {toasts.map((toast) => (
           <div
@@ -55,7 +51,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Se usa así desde cualquier componente: const { showToast } = useToast();
 export function useToast() {
   const context = useContext(ToastContext);
   if (!context) {

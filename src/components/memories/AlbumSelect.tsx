@@ -5,7 +5,6 @@ import type { Album } from "@/src/lib/memories";
 
 type Props = {
   albums: Album[];
-  // null = "Sin carpeta"
   value: number | null;
   onChange: (albumId: number | null) => void;
 };
@@ -19,7 +18,6 @@ export function AlbumSelect({ albums, value, onChange }: Props) {
       ? "Sin carpeta"
       : (albums.find((album) => album.id === value)?.name ?? "Sin carpeta");
 
-  // Cierra el desplegable si haces clic en cualquier otro lado
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
       if (
@@ -58,8 +56,6 @@ export function AlbumSelect({ albums, value, onChange }: Props) {
       </button>
 
       {open && (
-        // Se abre hacia ARRIBA (bottom-full): este control vive cerca del
-        // borde inferior del lightbox, y hacia abajo se saldría de pantalla
         <div className="absolute bottom-full left-1/2 z-10 mb-2 max-h-60 w-full -translate-x-1/2 overflow-y-auto rounded-2xl border border-stone-200/80 bg-white shadow-xl">
           <button
             type="button"

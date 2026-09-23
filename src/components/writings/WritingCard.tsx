@@ -6,7 +6,6 @@ const AUTHOR_LABEL: Record<Writing["author"], string> = {
   Ana: "Ana",
 };
 
-// Bajamos el largo del preview para que la tarjeta ocupe menos alto
 const PREVIEW_LENGTH_CONTENT = 130;
 const PREVIEW_LENGTH_TITLE = 35;
 

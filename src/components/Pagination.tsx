@@ -7,7 +7,6 @@ type Props = {
 };
 
 export function Pagination({ page, totalPages, onChange }: Props) {
-  // Si solo hay una página, no mostramos nada
   if (totalPages <= 1) return null;
 
   return (

@@ -23,8 +23,8 @@ const emptySubscribe = () => () => {};
 function useIsClient() {
   return useSyncExternalStore(
     emptySubscribe,
-    () => true, // en el cliente
-    () => false, // en el servidor
+    () => true,
+    () => false,
   );
 }
 
@@ -45,7 +45,6 @@ export function MemoryLightbox({
   const hasNext = index < items.length - 1;
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-  // Bloquear scroll del body mientras el lightbox está abierto
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";

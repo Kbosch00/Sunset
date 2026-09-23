@@ -126,8 +126,6 @@ export function BackgroundMusic() {
               Cerrar
             </button>
           </div>
-
-          {/* Barra de progreso */}
           <input
             type="range"
             min={0}

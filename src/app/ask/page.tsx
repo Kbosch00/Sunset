@@ -19,12 +19,10 @@ export default function AskPage() {
           <span className="h-px w-10 bg-rose-200" />
         </div>
         <div className="fade-enter mt-12 flex flex-col items-center gap-5">
-          <div className="fade-enter mt-12 flex flex-col items-center gap-5">
-            <YesButton />
-            <p className="text-xs tracking-wide text-stone-400">
-              Tómate el tiempo que necesites
-            </p>
-          </div>
+          <YesButton />
+          <p className="text-xs tracking-wide text-stone-400">
+            Tómate el tiempo que necesites
+          </p>
         </div>
       </div>
     </main>
