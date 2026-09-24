@@ -95,6 +95,9 @@ body {
   .toast-enter {
     animation: none;
   }
+  .nav-icon-active {
+    animation: none;
+  }
 }
 
 @keyframes yesPetal {
@@ -127,4 +130,22 @@ body {
 }
 .toast-enter {
   animation: toastIn 250ms ease-out;
+}
+
+@keyframes navIconPop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.35);
+  }
+  70% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.nav-icon-active {
+  animation: navIconPop 400ms ease-out;
 }

@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'d7755eedb51d5306b9372da6b05f1eea4ba5f21e559a33163881b01c87a05e7b'>;
+  StorageHashBase<'325824170177ecbd75a6acb374f1979b0e81fcdc477ae99f937ea6d31e2dc823'>;
 export type ExecutionHash =
   ExecutionHashBase<'574edb55389e9659c25f51d32584e33584ee52b9f30ee7abb31ee7a1098d80e8'>;
 export type ProfileHash =
@@ -258,14 +258,8 @@ export type FieldOutputTypes = {
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly content: CodecTypes['pg/text@1']['output'];
       readonly done: CodecTypes['pg/bool@1']['output'];
-      readonly categoryId: CodecTypes['pg/int4@1']['output'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
-    };
-    readonly TodoCategory: {
-      readonly id: CodecTypes['pg/int4@1']['output'];
-      readonly name: CodecTypes['pg/text@1']['output'];
-      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
     readonly Writing: {
       readonly id: CodecTypes['pg/int4@1']['output'];
@@ -295,14 +289,8 @@ export type FieldInputTypes = {
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly content: CodecTypes['pg/text@1']['input'];
       readonly done: CodecTypes['pg/bool@1']['input'];
-      readonly categoryId: CodecTypes['pg/int4@1']['input'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
-    };
-    readonly TodoCategory: {
-      readonly id: CodecTypes['pg/int4@1']['input'];
-      readonly name: CodecTypes['pg/text@1']['input'];
-      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
     };
     readonly Writing: {
       readonly id: CodecTypes['pg/int4@1']['input'];
@@ -329,17 +317,11 @@ export type StorageColumnTypes = {
       readonly url: CodecTypes['pg/text@1']['output'];
     };
     readonly todo: {
-      readonly categoryId: CodecTypes['pg/int4@1']['output'] | null;
       readonly content: CodecTypes['pg/text@1']['output'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly done: CodecTypes['pg/bool@1']['output'];
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
-    };
-    readonly todoCategory: {
-      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
-      readonly id: CodecTypes['pg/int4@1']['output'];
-      readonly name: CodecTypes['pg/text@1']['output'];
     };
     readonly writing: {
       readonly author: CodecTypes['pg/text@1']['output'];
@@ -366,17 +348,11 @@ export type StorageColumnInputTypes = {
       readonly url: CodecTypes['pg/text@1']['input'];
     };
     readonly todo: {
-      readonly categoryId: CodecTypes['pg/int4@1']['input'] | null;
       readonly content: CodecTypes['pg/text@1']['input'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly done: CodecTypes['pg/bool@1']['input'];
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
-    };
-    readonly todoCategory: {
-      readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
-      readonly id: CodecTypes['pg/int4@1']['input'];
-      readonly name: CodecTypes['pg/text@1']['input'];
     };
     readonly writing: {
       readonly author: CodecTypes['pg/text@1']['input'];
@@ -415,22 +391,13 @@ export namespace Models {
     album: public_Album | null;
     readonly [RelationKeys]?: 'album';
   };
-  export type public_TodoCategory = {
-    id: CodecTypes['pg/int4@1']['output'];
-    name: CodecTypes['pg/text@1']['output'];
-    createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
-    todos: public_Todo[];
-    readonly [RelationKeys]?: 'todos';
-  };
   export type public_Todo = {
     id: CodecTypes['pg/int4@1']['output'];
     content: CodecTypes['pg/text@1']['output'];
     done: CodecTypes['pg/bool@1']['output'];
-    categoryId: CodecTypes['pg/int4@1']['output'] | null;
     createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
-    category: public_TodoCategory | null;
-    readonly [RelationKeys]?: 'category';
+    readonly [RelationKeys]?: never;
   };
 }
 
@@ -439,7 +406,6 @@ export declare const models: {
     Writing: Models.public_Writing;
     Album: Models.public_Album;
     Memory: Models.public_Memory;
-    TodoCategory: Models.public_TodoCategory;
     Todo: Models.public_Todo;
   };
 };
@@ -573,11 +539,6 @@ type ContractBase = Omit<
                     readonly value: DefaultLiteralValue<'pg/bool@1', false>;
                   };
                 };
-                readonly categoryId: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: true;
-                };
                 readonly createdAt: {
                   readonly nativeType: 'timestamptz';
                   readonly codecId: 'pg/timestamptz-string@1';
@@ -588,54 +549,6 @@ type ContractBase = Omit<
                   readonly nativeType: 'timestamptz';
                   readonly codecId: 'pg/timestamptz-string@1';
                   readonly nullable: false;
-                };
-              };
-              primaryKey: { readonly columns: readonly ['id'] };
-              uniques: readonly [];
-              indexes: readonly [
-                {
-                  readonly name: 'todo_categoryId_idx_15c304f2';
-                  readonly prefix: 'todo_categoryId_idx';
-                  readonly columns: readonly ['categoryId'];
-                  readonly unique: false;
-                },
-              ];
-              foreignKeys: readonly [
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'todo';
-                    readonly columns: readonly ['categoryId'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'todoCategory';
-                    readonly columns: readonly ['id'];
-                  };
-                },
-              ];
-            };
-            readonly todoCategory: {
-              columns: {
-                readonly id: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                  readonly default: {
-                    readonly kind: 'function';
-                    readonly expression: 'autoincrement()';
-                  };
-                };
-                readonly name: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                };
-                readonly createdAt: {
-                  readonly nativeType: 'timestamptz';
-                  readonly codecId: 'pg/timestamptz-string@1';
-                  readonly nullable: false;
-                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
                 };
               };
               primaryKey: { readonly columns: readonly ['id'] };
@@ -700,10 +613,6 @@ type ContractBase = Omit<
     readonly writing: { readonly namespace: 'public' & NamespaceId; readonly model: 'Writing' };
     readonly album: { readonly namespace: 'public' & NamespaceId; readonly model: 'Album' };
     readonly memory: { readonly namespace: 'public' & NamespaceId; readonly model: 'Memory' };
-    readonly todoCategory: {
-      readonly namespace: 'public' & NamespaceId;
-      readonly model: 'TodoCategory';
-    };
     readonly todo: { readonly namespace: 'public' & NamespaceId; readonly model: 'Todo' };
   };
   readonly domain: {
@@ -817,10 +726,6 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
               };
-              readonly categoryId: {
-                readonly nullable: true;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
               readonly createdAt: {
                 readonly nullable: false;
                 readonly type: {
@@ -836,20 +741,7 @@ type ContractBase = Omit<
                 };
               };
             };
-            readonly relations: {
-              readonly category: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'TodoCategory';
-                };
-                readonly cardinality: 'N:1';
-                readonly nullable: true;
-                readonly on: {
-                  readonly localFields: readonly ['categoryId'];
-                  readonly targetFields: readonly ['id'];
-                };
-              };
-            };
+            readonly relations: Record<string, never>;
             readonly storage: {
               readonly table: 'todo';
               readonly namespaceId: 'public';
@@ -857,47 +749,8 @@ type ContractBase = Omit<
                 readonly id: { readonly column: 'id' };
                 readonly content: { readonly column: 'content' };
                 readonly done: { readonly column: 'done' };
-                readonly categoryId: { readonly column: 'categoryId' };
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
-              };
-            };
-          };
-          readonly TodoCategory: {
-            readonly fields: {
-              readonly id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-              readonly name: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly createdAt: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-string@1';
-                };
-              };
-            };
-            readonly relations: {
-              readonly todos: {
-                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'Todo' };
-                readonly cardinality: '1:N';
-                readonly on: {
-                  readonly localFields: readonly ['id'];
-                  readonly targetFields: readonly ['categoryId'];
-                };
-              };
-            };
-            readonly storage: {
-              readonly table: 'todoCategory';
-              readonly namespaceId: 'public';
-              readonly fields: {
-                readonly id: { readonly column: 'id' };
-                readonly name: { readonly column: 'name' };
-                readonly createdAt: { readonly column: 'createdAt' };
               };
             };
           };

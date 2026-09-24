@@ -24,3 +24,20 @@ model Memory {
   album     Album?   @relation(fields: [albumId], references: [id])
   createdAt TimestamptzString @default(now())
 }
+
+model TodoCategory {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt TimestamptzString @default(now())
+  todos     Todo[]
+}
+
+model Todo {
+  id         Int      @id @default(autoincrement())
+  content    String
+  done       Boolean  @default(false)
+  categoryId Int?
+  category   TodoCategory? @relation(fields: [categoryId], references: [id])
+  createdAt  TimestamptzString @default(now())
+  updatedAt  temporal.updatedAtString()
+}
