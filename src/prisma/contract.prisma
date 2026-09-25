@@ -41,3 +41,11 @@ model Todo {
   createdAt  TimestamptzString @default(now())
   updatedAt  temporal.updatedAtString()
 }
+
+model LoginAttempt {
+  id          Int      @id @default(autoincrement())
+  identifier  String   @unique
+  failedCount Int      @default(0)
+  lockedUntil Int?
+  updatedAt   temporal.updatedAtString()
+}

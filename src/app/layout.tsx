@@ -32,6 +32,10 @@ export const metadata: Metadata = {
   ),
   title: "Sunset",
   description: "Un pequeño rincón solo para nosotros 🌷",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default async function RootLayout({

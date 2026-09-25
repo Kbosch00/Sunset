@@ -1,3 +1,5 @@
+import { DaysCounter } from "../components/DaysCounter";
+
 function getDaysTogether(since: Date) {
   const now = new Date();
   const start = new Date(since);
@@ -29,9 +31,7 @@ export default function HomePage() {
           <p className="text-sm tracking-wide text-stone-400">
             Llevamos juntos
           </p>
-          <p className="fade-enter mt-3 font-display text-5xl font-medium text-stone-800 tabular-nums">
-            {days}
-          </p>
+          <DaysCounter value={days} className="fade-enter" />
           <p className="fade-enter mt-2 text-sm text-stone-500">
             {days === 1 ? "día" : "días"}
           </p>
