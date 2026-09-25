@@ -16,6 +16,10 @@
       "model": "Memory",
       "namespace": "public"
     },
+    "proposal": {
+      "model": "Proposal",
+      "namespace": "public"
+    },
     "todo": {
       "model": "Todo",
       "namespace": "public"
@@ -227,6 +231,37 @@
               },
               "namespaceId": "public",
               "table": "memory"
+            }
+          },
+          "Proposal": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "id": {
+                  "column": "id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "proposal"
             }
           },
           "Todo": {
@@ -611,6 +646,36 @@
               },
               "uniques": []
             },
+            "proposal": {
+              "columns": {
+                "createdAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
             "todo": {
               "columns": {
                 "categoryId": {
@@ -782,7 +847,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "f9a211236c637932dba24c985138088054b0b8d419bcc737927f15a53a4ea961"
+    "storageHash": "d074ff43d2ea2cc0214629cf695a434fb6c8d3819ac74fb2699d9c4d295cf516"
   },
   "execution": {
     "executionHash": "3f312fa076d36a06455ba8ea162f9ad8815c287962c5bd6ac18bb7c335d51ff2",

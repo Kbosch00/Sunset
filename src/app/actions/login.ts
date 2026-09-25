@@ -3,13 +3,11 @@
 import { cookies, headers } from "next/headers";
 import { db } from "@/src/prisma/db";
 
-// Después de 5 intentos fallidos seguidos, bloqueamos por 15 minutos
 const MAX_ATTEMPTS = 5;
-const LOCK_MINUTES = 15;
+const LOCK_MINUTES = 30;
 
 async function getClientIdentifier() {
   const headersList = await headers();
-  // Vercel manda la IP real del visitante en este header
   const forwardedFor = headersList.get("x-forwarded-for");
   return forwardedFor?.split(",")[0]?.trim() ?? "unknown";
 }
@@ -61,6 +59,7 @@ export async function verifyAccessCode(code: string) {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 400, // 400 días
     path: "/",
   });
   return { success: true };

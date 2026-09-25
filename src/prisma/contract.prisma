@@ -49,3 +49,8 @@ model LoginAttempt {
   lockedUntil Int?
   updatedAt   temporal.updatedAtString()
 }
+
+model Proposal {
+  id        Int      @id @default(autoincrement())
+  createdAt TimestamptzString @default(now())
+}
