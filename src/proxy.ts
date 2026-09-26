@@ -54,6 +54,13 @@ export async function proxy(request: NextRequest) {
       NextResponse.redirect(new URL("/", request.url)),
     );
   }
+  if (pathname.startsWith("/together") && pathname !== "/together/pin") {
+    const hasLovenseAccess =
+      request.cookies.get("sunset_lovense_access")?.value === "1";
+    if (!hasLovenseAccess) {
+      return NextResponse.redirect(new URL("/together/pin", request.url));
+    }
+  }
 
   return withRefreshedCookie(NextResponse.next());
 }

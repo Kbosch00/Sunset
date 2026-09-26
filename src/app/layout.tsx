@@ -7,6 +7,7 @@ import { FloatingNav } from "@/src/components/FloatingNav";
 import "./globals.css";
 import { BackgroundMusic } from "../components/BackgroundMusic";
 import { ToastProvider } from "@/src/components/Toast";
+import { TogetherButton } from "@/src/components/together/TogetherButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -60,6 +61,7 @@ export default async function RootLayout({
         </div>
         {showNav && <FloatingNav />}
         {showNav && <BackgroundMusic />}
+        {showNav && <TogetherButton />}
       </body>
     </html>
   );
