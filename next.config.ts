@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "*.ufs.sh",
         pathname: "/f/*",
       },
+      {
+        protocol: "https",
+        hostname: "apps.lovense.com",
+        pathname: "/UploadFiles/**",
+      },
     ],
   },
   async headers() {

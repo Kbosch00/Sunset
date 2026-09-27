@@ -2,7 +2,6 @@
 
 import { cookies } from "next/headers";
 
-// 1 hora exacta, sin importar si el navegador sigue "abierto"
 const COOKIE_MAX_AGE = 60 * 60;
 
 export async function verifyLovensePin(pin: string) {

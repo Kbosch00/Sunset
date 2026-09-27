@@ -12,6 +12,10 @@
       "model": "LoginAttempt",
       "namespace": "public"
     },
+    "loveDevice": {
+      "model": "LoveDevice",
+      "namespace": "public"
+    },
     "memory": {
       "model": "Memory",
       "namespace": "public"
@@ -153,6 +157,77 @@
               },
               "namespaceId": "public",
               "table": "loginAttempt"
+            }
+          },
+          "LoveDevice": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "label": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "uid": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "updatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "utoken": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "label": {
+                  "column": "label"
+                },
+                "uid": {
+                  "column": "uid"
+                },
+                "updatedAt": {
+                  "column": "updatedAt"
+                },
+                "utoken": {
+                  "column": "utoken"
+                }
+              },
+              "namespaceId": "public",
+              "table": "loveDevice"
             }
           },
           "Memory": {
@@ -575,6 +650,62 @@
                 }
               ]
             },
+            "loveDevice": {
+              "columns": {
+                "createdAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "label": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "uid": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "updatedAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "utoken": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "label"
+                  ]
+                }
+              ]
+            },
             "memory": {
               "columns": {
                 "albumId": {
@@ -847,10 +978,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "d074ff43d2ea2cc0214629cf695a434fb6c8d3819ac74fb2699d9c4d295cf516"
+    "storageHash": "df9c3b4d368dc5f5c8e68a7144b59e0206cb16e76bcacbcaa7741d6303108df1"
   },
   "execution": {
-    "executionHash": "3f312fa076d36a06455ba8ea162f9ad8815c287962c5bd6ac18bb7c335d51ff2",
+    "executionHash": "0e3a098ae2aabe470643aa512c2138b32d642a6ae5f8aa760584752e6791dd45",
     "mutations": {
       "defaults": [
         {
@@ -866,6 +997,21 @@
             "column": "updatedAt",
             "namespace": "public",
             "table": "loginAttempt"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "column": "updatedAt",
+            "namespace": "public",
+            "table": "loveDevice"
           }
         },
         {
