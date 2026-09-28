@@ -11,7 +11,8 @@ function getDaysTogether(since: Date) {
 }
 
 export default function HomePage() {
-  const sinceDate = new Date("2026-10-01");
+  const date = String(process.env.SPECIAL_DATE);
+  const sinceDate = new Date(date);
   const days = getDaysTogether(sinceDate);
 
   return (

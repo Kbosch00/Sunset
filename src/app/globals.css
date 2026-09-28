@@ -98,6 +98,9 @@ body {
   .nav-icon-active {
     animation: none;
   }
+  button:not(:disabled):active {
+    scale: 1;
+  }
 }
 
 @keyframes yesPetal {
@@ -148,4 +151,45 @@ body {
 }
 .nav-icon-active {
   animation: navIconPop 400ms ease-out;
+}
+
+@layer base {
+  button {
+    transition:
+      scale 150ms ease,
+      background-color 200ms ease,
+      color 200ms ease,
+      border-color 200ms ease,
+      box-shadow 200ms ease,
+      opacity 200ms ease;
+  }
+
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  button:not(:disabled):active {
+    scale: 0.97;
+  }
+
+  input,
+  textarea {
+    transition:
+      box-shadow 200ms ease,
+      border-color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    transition: opacity 200ms ease;
+  }
+  input:focus::placeholder,
+  textarea:focus::placeholder {
+    opacity: 0.4;
+  }
 }

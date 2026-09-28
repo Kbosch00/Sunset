@@ -3,10 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ConfirmDialog } from "../ConfirmDialog";
+import { usePathname } from "next/navigation";
 
 export function TogetherButton() {
   const router = useRouter();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  if (pathname.startsWith("/together")) return null;
 
   function handleConfirm() {
     setOpen(false);
