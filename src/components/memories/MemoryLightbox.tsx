@@ -95,27 +95,53 @@ export function MemoryLightbox({
 
   const content = (
     <div
-      className="fixed inset-0 z-100 flex items-center justify-center overflow-y-auto bg-stone-900/80 p-4 backdrop-blur-sm"
-      onClick={onClose}
+      className="fixed inset-0 z-100 overflow-y-auto bg-stone-900/80 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
     >
-      <button
-        type="button"
-        onClick={onClose}
-        className="fixed right-4 top-4 z-10 rounded-full bg-white/10 px-3 py-1 text-sm text-white hover:bg-white/20"
+      <div
+        className="sticky top-0 z-10 flex items-center justify-between gap-2 bg-linear-to-b from-stone-900/90 to-transparent px-4 pb-10 pt-4"
+        onClick={(e) => e.stopPropagation()}
       >
-        Cerrar
-      </button>
+        <button
+          type="button"
+          onClick={() => setConfirmOpen(true)}
+          disabled={deleting}
+          className="rounded-full bg-white/10 px-3 py-1 text-sm text-white hover:bg-white/20 disabled:opacity-50"
+        >
+          {deleting ? "Borrando..." : "Eliminar"}
+        </button>
 
-      <button
-        type="button"
-        onClick={() => setConfirmOpen(true)}
-        disabled={deleting}
-        className="fixed left-4 top-4 z-10 rounded-full bg-white/10 px-3 py-1 text-sm text-white hover:bg-white/20 disabled:opacity-50"
-      >
-        {deleting ? "Borrando..." : "Eliminar"}
-      </button>
+        <div className="flex items-center gap-2">
+          {hasPrev && (
+            <button
+              type="button"
+              onClick={goPrev}
+              className="rounded-full bg-white/10 px-3 py-2 text-white hover:bg-white/20"
+              aria-label="Anterior"
+            >
+              ‹
+            </button>
+          )}
+          {hasNext && (
+            <button
+              type="button"
+              onClick={goNext}
+              className="rounded-full bg-white/10 px-3 py-2 text-white hover:bg-white/20"
+              aria-label="Siguiente"
+            >
+              ›
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-full bg-white/10 px-3 py-1 text-sm text-white hover:bg-white/20"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
 
       <ConfirmDialog
         open={confirmOpen}
@@ -133,71 +159,46 @@ export function MemoryLightbox({
           showToast("Recuerdo eliminado");
         }}
       />
-      {hasPrev && (
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            goPrev();
-          }}
-          className="fixed left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/10 px-3 py-2 text-white hover:bg-white/20 sm:left-4"
-          aria-label="Anterior"
+
+      <div className="flex justify-center px-4 pb-6" onClick={onClose}>
+        <div
+          className="relative w-full max-w-5xl"
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
         >
-          ‹
-        </button>
-      )}
+          {item.type === "image" ? (
+            <Image
+              key={item.id}
+              src={item.url}
+              alt="Recuerdo"
+              width={1600}
+              height={1200}
+              className="mx-auto max-h-[85vh] w-auto rounded-2xl object-contain shadow-2xl"
+              priority
+            />
+          ) : (
+            <video
+              key={item.id}
+              src={item.url}
+              controls
+              autoPlay
+              playsInline
+              className="mx-auto max-h-[85vh] w-full rounded-2xl bg-black shadow-2xl"
+            />
+          )}
 
-      {hasNext && (
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            goNext();
-          }}
-          className="fixed right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/10 px-3 py-2 text-white hover:bg-white/20 sm:right-4"
-          aria-label="Siguiente"
-        >
-          ›
-        </button>
-      )}
+          <div className="mt-3 flex flex-col items-center gap-3">
+            <p className="text-center text-xs text-white/60">
+              {index + 1} / {items.length}
+            </p>
 
-      <div
-        className="relative my-auto max-h-[90vh] w-full max-w-5xl"
-        onClick={(e) => e.stopPropagation()}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
-        {item.type === "image" ? (
-          <Image
-            key={item.id}
-            src={item.url}
-            alt="Recuerdo"
-            width={1600}
-            height={1200}
-            className="mx-auto max-h-[85vh] w-auto rounded-2xl object-contain shadow-2xl"
-            priority
-          />
-        ) : (
-          <video
-            key={item.id}
-            src={item.url}
-            controls
-            autoPlay
-            playsInline
-            className="mx-auto max-h-[85vh] w-full rounded-2xl bg-black shadow-2xl"
-          />
-        )}
-
-        <div className="mt-3 flex flex-col items-center gap-3">
-          <p className="text-center text-xs text-white/60">
-            {index + 1} / {items.length}
-          </p>
-
-          <AlbumSelect
-            albums={albums}
-            value={item.albumId}
-            onChange={handleAlbumChange}
-          />
+            <AlbumSelect
+              albums={albums}
+              value={item.albumId}
+              onChange={handleAlbumChange}
+            />
+          </div>
         </div>
       </div>
     </div>
