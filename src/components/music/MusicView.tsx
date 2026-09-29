@@ -35,12 +35,12 @@ export function MusicView({ playlists }: Props) {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
         {paginated.map((playlist) => (
           <section key={playlist.spotifyId} className="space-y-3">
-            <div className="text-center md:text-left">
-              <h2 className="font-display text-xl text-stone-800">
+            <div className="fade-stagger text-center md:text-left">
+              <h2 className="fade-enter font-display text-xl text-stone-800">
                 {playlist.title}
               </h2>
               {playlist.description ? (
-                <p className="mt-1 text-sm text-stone-500">
+                <p className="fade-enter mt-1 text-sm text-stone-500">
                   {playlist.description}
                 </p>
               ) : null}

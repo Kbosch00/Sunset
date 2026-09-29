@@ -82,7 +82,6 @@ export function TodoCategoryTabs({ categories, active, onSelect }: Props) {
         : "bg-stone-100 text-stone-600 hover:bg-stone-200"
     }`;
 
-  // --- Modo "gestionar categorías" (botones grandes, sin depender de hover) ---
   if (managing) {
     return (
       <div className="mx-auto max-w-sm space-y-3 rounded-3xl border border-stone-200/80 bg-white/60 p-4 shadow-sm backdrop-blur-sm">
@@ -167,7 +166,6 @@ export function TodoCategoryTabs({ categories, active, onSelect }: Props) {
     );
   }
 
-  // --- Modo normal: pestañas para filtrar ---
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-center gap-2">

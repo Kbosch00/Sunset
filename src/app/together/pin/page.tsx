@@ -28,11 +28,11 @@ export default function LovensePinPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-      <p className="mb-4 text-sm tracking-[0.2em] text-stone-400 uppercase">
+    <main className="fade-stagger flex min-h-screen flex-col items-center justify-center px-6 text-center">
+      <p className="fade-enter mb-4 text-sm tracking-[0.2em] text-stone-400 uppercase">
         Acceso especial
       </p>
-      <h1 className="font-display text-2xl font-medium text-stone-800 sm:text-3xl">
+      <h1 className="fade-enter font-display text-2xl font-medium text-stone-800 sm:text-3xl">
         Ingresa el PIN
       </h1>
 
